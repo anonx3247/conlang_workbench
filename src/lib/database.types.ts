@@ -8,8 +8,12 @@ export type Json =
 
 type GeneratedKeys = "id" | "created_at" | "updated_at";
 
-type DefaultInsert<Row> = Omit<Row, GeneratedKeys> &
-  Partial<Pick<Row, Extract<keyof Row, GeneratedKeys>>>;
+type NullableKeys<Row> = {
+  [Key in keyof Row]-?: null extends Row[Key] ? Key : never;
+}[keyof Row];
+
+type DefaultInsert<Row> = Omit<Row, GeneratedKeys | NullableKeys<Row>> &
+  Partial<Pick<Row, Extract<keyof Row, GeneratedKeys | NullableKeys<Row>>>>;
 
 export type TableRecord<
   Row,
@@ -81,6 +85,7 @@ export type Database = {
           name: string;
           description: string | null;
           phoneme_ids: string[];
+          notes: string | null;
         },
         {
           id?: string;
@@ -88,6 +93,7 @@ export type Database = {
           name: string;
           description?: string | null;
           phoneme_ids?: string[];
+          notes?: string | null;
         }
       >;
       romanization_mappings: TableRecord<
@@ -110,6 +116,7 @@ export type Database = {
           template_body: Json;
           is_active: boolean;
           ordering: number;
+          notes: string | null;
         }
       >;
       phonotactic_constraints: TableRecord<
@@ -118,6 +125,7 @@ export type Database = {
           constraint_body: Json;
           is_active: boolean;
           ordering: number;
+          notes: string | null;
         }
       >;
       sound_rules: TableRecord<
@@ -126,6 +134,7 @@ export type Database = {
           rule_body: Json;
           is_active: boolean;
           ordering: number;
+          notes: string | null;
         }
       >;
       parts_of_speech: TableRecord<
@@ -133,6 +142,7 @@ export type Database = {
           name: string;
           abbreviation: string;
           ordering: number;
+          notes: string | null;
         }
       >;
       dimensions: TableRecord<
@@ -144,6 +154,7 @@ export type Database = {
           intrinsic: boolean;
           ordering: number;
           template_id: string | null;
+          notes: string | null;
         }
       >;
       morphology_rules: TableRecord<
@@ -157,6 +168,7 @@ export type Database = {
           auto_apply: boolean;
           is_active: boolean;
           ordering: number;
+          notes: string | null;
         }
       >;
       morphology_rule_parts_of_speech: TableRecord<{
@@ -187,6 +199,7 @@ export type Database = {
           derived_from_lexeme_id: string | null;
           derived_via_rule_id: string | null;
           root_only_via_derivations: boolean;
+          notes: string | null;
         }
       >;
       paradigm_cell_overrides: TableRecord<
@@ -203,6 +216,7 @@ export type Database = {
           pos_id: string;
           name: string;
           feature_bindings: Json;
+          notes: string | null;
         }
       >;
       lexeme_parents: TableRecord<{

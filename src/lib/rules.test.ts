@@ -79,9 +79,9 @@ describe("structured rule body validators", () => {
       isPhonotacticTemplateBody({
         version: 1,
         kind: "phonotactic-template",
-        slots: [
-          { kind: "class", name: "C", optional: true },
-          { kind: "class", name: "V" },
+          slots: [
+          { kind: "class", ref: "C", optional: true },
+          { kind: "class", ref: "V" },
         ],
       }),
     ).toBe(true);
@@ -91,8 +91,8 @@ describe("structured rule body validators", () => {
         version: 1,
         kind: "forbidden-sequence",
         sequence: [
-          { kind: "class", name: "C" },
-          { kind: "class", name: "C" },
+          { kind: "class", ref: "C" },
+          { kind: "class", ref: "C" },
         ],
         position: "start",
       }),
@@ -113,6 +113,16 @@ describe("structured rule body validators", () => {
         version: 1,
         kind: "forbidden-sequence",
         pattern: "CC",
+      }),
+    ).toBe(false);
+  });
+
+  it("rejects legacy phonotactic class slots without ref", () => {
+    expect(
+      isPhonotacticTemplateBody({
+        version: 1,
+        kind: "phonotactic-template",
+        slots: [{ kind: "class", name: "C" }],
       }),
     ).toBe(false);
   });

@@ -8,10 +8,14 @@ import type { ProjectResult } from "@/lib/projects";
 export function ProjectShell({
   result,
   selectedAreaSlug,
+  selectedSectionName,
+  sectionHref,
   children,
 }: {
   readonly result: ProjectResult;
   readonly selectedAreaSlug: string;
+  readonly selectedSectionName?: string;
+  readonly sectionHref?: (item: string) => string;
   readonly children: React.ReactNode;
 }) {
   const project = result.project;
@@ -61,16 +65,22 @@ export function ProjectShell({
             <p className="px-3 pb-1 text-xs font-semibold uppercase text-workbench-muted">
               {selectedArea.name}
             </p>
-            {selectedArea.items.map((item, index) => (
-              <Link
-                key={item}
-                href={`/projects/${project.id}/${selectedArea.slug}`}
-                className="flex h-9 items-center rounded-md px-3 text-sm font-medium text-workbench-muted transition hover:bg-white hover:text-workbench-ink"
-                aria-current={index === 0 ? "page" : undefined}
-              >
-                {item}
-              </Link>
-            ))}
+            {selectedArea.items.map((item) => {
+              const activeItem = selectedSectionName ?? selectedArea.items[0];
+              return (
+                <Link
+                  key={item}
+                  href={
+                    sectionHref?.(item) ??
+                    `/projects/${project.id}/${selectedArea.slug}`
+                  }
+                  className="flex h-9 items-center rounded-md px-3 text-sm font-medium text-workbench-muted transition hover:bg-white hover:text-workbench-ink"
+                  aria-current={activeItem === item ? "page" : undefined}
+                >
+                  {item}
+                </Link>
+              );
+            })}
           </nav>
         </aside>
 
