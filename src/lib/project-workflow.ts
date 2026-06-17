@@ -1,6 +1,5 @@
 import {
-  BookMarked,
-  FolderOpen,
+  FolderKanban,
   Languages,
   Library,
   ListTree,
@@ -9,6 +8,7 @@ import {
 
 export type WorkbenchArea = {
   readonly name: string;
+  readonly slug: string;
   readonly summary: string;
   readonly status: string;
   readonly items: readonly string[];
@@ -18,43 +18,45 @@ export type WorkbenchArea = {
 export const workbenchAreas: readonly WorkbenchArea[] = [
   {
     name: "Phonology",
+    slug: "phonology",
     summary: "Inventory, phonotactics, sound rules, and word generation.",
-    status: "Foundation placeholder",
+    status: "Route placeholder",
     items: ["Inventory", "Natural classes", "Sound rules"],
     icon: Languages,
   },
   {
     name: "Grammar",
+    slug: "grammar",
     summary: "Parts of speech, inflections, typology, and paradigms.",
-    status: "Foundation placeholder",
+    status: "Route placeholder",
     items: ["POS & dimensions", "Inflections", "Typology"],
     icon: ListTree,
   },
   {
     name: "Lexicon",
+    slug: "lexicon",
     summary: "Dictionary, derivations, semantic prompts, and exports.",
-    status: "Foundation placeholder",
+    status: "Route placeholder",
     items: ["Dictionary", "Swadesh list", "Derivations"],
     icon: Library,
   },
-  {
-    name: "Glossary",
-    summary: "Searchable linguistic reference material for workbench terms.",
-    status: "Foundation placeholder",
-    items: ["Terminology", "Examples", "Cross-links"],
-    icon: BookMarked,
-  },
-];
+] as const;
 
-export const projectActions = [
+export const glossaryDrawerItems = [
+  "Terminology",
+  "Examples",
+  "Cross-links",
+] as const;
+
+export const projectLauncherActions = [
   {
     label: "New project",
-    description: "Create a cloud-backed language workspace when storage lands.",
-    icon: FolderOpen,
+    description: "Create a cloud-backed language workspace.",
+    icon: FolderKanban,
   },
   {
     label: "Open project",
-    description: "Resume an existing project from the future project dashboard.",
+    description: "Resume one of your existing projects.",
     icon: Library,
   },
 ] as const;
