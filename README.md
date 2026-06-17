@@ -2,7 +2,7 @@
 
 A web-native foundation for a professional constructed-language workbench.
 
-This repository is being rebuilt as a Next.js + TypeScript application for Vercel serverless deployment with Supabase Auth/Postgres as the cloud data foundation. The current app still renders scaffolded workbench surfaces while later PRs wire real project workflows.
+This repository is being rebuilt as a Next.js + TypeScript application for Vercel serverless deployment with Supabase Auth/Postgres as the cloud data foundation. The current app includes the project launcher, account route shells, cloud project actions, and placeholder project workbench routes for later feature CRUD.
 
 ## Local Development
 
@@ -48,6 +48,8 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+The dashboard works without Supabase credentials in read-only demo mode. With Supabase credentials and an authenticated session, `/` lists cloud projects and enables project creation. Project workspaces live under `/projects/[projectId]` with semantic child routes for phonology, grammar, and lexicon placeholders. Glossary remains available from the project shell as a side drawer.
+
 ## Verification
 
 ```bash
@@ -60,10 +62,12 @@ npm run build
 ## Project Structure
 
 - `app/` - Next.js App Router routes, layout, metadata, and serverless route handlers.
+- `app/auth/` - Account entry shells for sign-in and sign-up.
+- `app/projects/[projectId]/` - Auth-aware project workbench layout and feature route placeholders.
 - `supabase/migrations/` - Supabase Postgres schema, Auth profile hook, indexes, and RLS policies.
 - `docs/rules-model.md` - Structured rule storage contract for phonology, phonotactics, and morphology.
 - `src/components/` - React components for the workbench shell.
-- `src/lib/` - Shared typed data, Supabase clients, database contracts, and rule validators.
+- `src/lib/` - Shared typed data, Supabase clients, project data actions, database contracts, and rule validators.
 - `test/` - Vitest setup and focused render/route tests.
 - `public/logo.png` - Logo copied from the reference app; Flutter code and platform assets are intentionally not copied.
 

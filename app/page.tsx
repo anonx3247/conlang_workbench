@@ -1,5 +1,12 @@
-import { AppShell } from "@/components/app-shell";
+import { cookies } from "next/headers";
 
-export default function Home() {
-  return <AppShell />;
+import { Dashboard } from "@/components/dashboard";
+import { listProjects } from "@/lib/projects";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+
+export default async function Home() {
+  const client = createServerSupabaseClient(await cookies());
+  const result = await listProjects(client);
+
+  return <Dashboard result={result} />;
 }

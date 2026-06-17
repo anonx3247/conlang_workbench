@@ -11,11 +11,11 @@ export type SupabaseCookie = {
 
 export type SupabaseCookieStore = {
   getAll(): SupabaseCookie[];
-  set(
+  set?(
     name: string,
     value: string,
     options?: Record<string, unknown>,
-  ): void | Promise<void>;
+  ): unknown;
 };
 
 export function createServerSupabaseClient(
@@ -33,7 +33,7 @@ export function createServerSupabaseClient(
       },
       setAll(cookiesToSet) {
         for (const { name, value, options } of cookiesToSet) {
-          void cookieStore.set(name, value, options);
+          void cookieStore.set?.(name, value, options);
         }
       },
     },
