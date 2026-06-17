@@ -29,6 +29,13 @@ export type MorphOperation =
       readonly count?: number;
       readonly direction?: "from-start" | "from-end";
     }
+  | {
+      readonly kind: "replace";
+      readonly from: SegmentSelector;
+      readonly to: SegmentSelector;
+      readonly count?: number;
+      readonly direction?: "from-start" | "from-end";
+    }
   | { readonly kind: "template"; readonly slots: readonly string[] }
   | { readonly kind: "reduplication"; readonly scope: "full" | "cv" | "c"; readonly position: "prefix" | "suffix" }
   | { readonly kind: "suppletion"; readonly form: string }
@@ -130,6 +137,7 @@ function isMorphOperation(value: unknown): value is MorphOperation {
         Number(value.afterConsonant) > 0
       );
     case "ablaut":
+    case "replace":
       return (
         isSegmentSelector(value.from) &&
         isSegmentSelector(value.to) &&

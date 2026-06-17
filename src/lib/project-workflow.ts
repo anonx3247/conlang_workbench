@@ -37,7 +37,7 @@ export const workbenchAreas: readonly WorkbenchArea[] = [
     slug: "lexicon",
     summary: "Dictionary, derivations, semantic prompts, and exports.",
     status: "Route placeholder",
-    items: ["Dictionary", "Swadesh list", "Derivations"],
+    items: ["Dictionary", "Swadesh list", "Thesaurus", "Derivations"],
     icon: Library,
   },
 ] as const;
