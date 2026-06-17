@@ -12,5 +12,5 @@ export function createBrowserSupabaseClient(): SupabaseClient<Database> | null {
     return null;
   }
 
-  return createBrowserClient<Database>(env.url, env.anonKey);
+  return createBrowserClient<Database>(env.url, env.publishableKey);
 }

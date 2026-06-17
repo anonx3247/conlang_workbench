@@ -190,6 +190,7 @@ create table public.morphology_rule_parts_of_speech (
   project_id uuid not null references public.projects(id) on delete cascade,
   rule_id uuid not null references public.morphology_rules(id) on delete cascade,
   pos_id uuid not null references public.parts_of_speech(id) on delete cascade,
+  rule_ordering integer not null default 0,
   created_at timestamptz not null default now(),
   primary key (rule_id, pos_id)
 );
@@ -281,6 +282,7 @@ create index dimensions_project_id_idx on public.dimensions(project_id);
 create unique index dimensions_project_pos_name_key on public.dimensions(project_id, pos_id, lower(name));
 create index morphology_rules_project_id_idx on public.morphology_rules(project_id);
 create index morphology_rule_parts_of_speech_project_id_idx on public.morphology_rule_parts_of_speech(project_id);
+create index morphology_rule_parts_of_speech_pos_order_idx on public.morphology_rule_parts_of_speech(project_id, pos_id, rule_ordering);
 create index lexemes_project_id_idx on public.lexemes(project_id);
 create index morphological_rule_exceptions_project_id_idx on public.morphological_rule_exceptions(project_id);
 create index paradigm_cell_overrides_project_id_idx on public.paradigm_cell_overrides(project_id);

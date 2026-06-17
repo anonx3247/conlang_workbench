@@ -18,7 +18,7 @@ describe("Supabase clients", () => {
 
   it("does not require Supabase credentials at build or test time", () => {
     vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "");
-    vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY", "");
 
     expect(getSupabasePublicEnv()).toBeNull();
     expect(createBrowserSupabaseClient()).toBeNull();
@@ -27,18 +27,29 @@ describe("Supabase clients", () => {
 
   it("creates a typed browser client when public env exists", () => {
     vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://example.supabase.co");
-    vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "anon-key");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY", "sb_publishable_key");
 
     expect(createBrowserSupabaseClient()).toBeTruthy();
     expect(createBrowserClient).toHaveBeenCalledWith(
       "https://example.supabase.co",
-      "anon-key",
+      "sb_publishable_key",
+    );
+  });
+
+  it("supports legacy anon env as a fallback for older/local projects", () => {
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://example.supabase.co");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "legacy-anon-key");
+
+    expect(createBrowserSupabaseClient()).toBeTruthy();
+    expect(createBrowserClient).toHaveBeenCalledWith(
+      "https://example.supabase.co",
+      "legacy-anon-key",
     );
   });
 
   it("creates a server client with getAll/setAll cookie adapters", () => {
     vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://example.supabase.co");
-    vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "anon-key");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY", "sb_publishable_key");
 
     const cookieStore = {
       getAll: vi.fn(() => [{ name: "sb", value: "token" }]),
@@ -48,7 +59,7 @@ describe("Supabase clients", () => {
     expect(createServerSupabaseClient(cookieStore)).toBeTruthy();
     expect(createServerClient).toHaveBeenCalledWith(
       "https://example.supabase.co",
-      "anon-key",
+      "sb_publishable_key",
       expect.objectContaining({
         cookies: expect.objectContaining({
           getAll: expect.any(Function),

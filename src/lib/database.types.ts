@@ -163,6 +163,7 @@ export type Database = {
         project_id: string;
         rule_id: string;
         pos_id: string;
+        rule_ordering: number;
         created_at: string;
       }>;
       morphological_rule_exceptions: TableRecord<

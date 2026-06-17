@@ -52,4 +52,11 @@ describe("Supabase foundation migration", () => {
     expect(migrationSql).toContain("rule_body ->> 'kind' = 'morphology-rule'");
     expect(migrationSql).not.toMatch(/\bsource\s+text\s+not\s+null/i);
   });
+
+  it("stores morphology rule application order per part of speech", () => {
+    expect(migrationSql).toContain("rule_ordering integer not null default 0");
+    expect(migrationSql).toContain(
+      "morphology_rule_parts_of_speech_pos_order_idx",
+    );
+  });
 });

@@ -27,10 +27,18 @@ Required public values:
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 ```
 
-`SUPABASE_SERVICE_ROLE_KEY` is documented for future server-only maintenance jobs. It must not be imported from client components or exposed in browser bundles. Tests and builds do not require real Supabase credentials.
+`SUPABASE_SECRET_KEY` is documented for future server-only maintenance jobs. It must not be imported from client components or exposed in browser bundles. Legacy `NEXT_PUBLIC_SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY` fallbacks are still supported for older projects and local Supabase CLI output. Tests and builds do not require real Supabase credentials.
+
+Run against a local Supabase stack in Docker:
+
+```bash
+npm run dev:supabase
+```
+
+This uses `npx supabase start`, reads `npx supabase status -o env`, maps the local API URL and key into the app environment, then starts `next dev`. Use `npm run prod` for a production-style build and start.
 
 Run the development server:
 
@@ -64,6 +72,12 @@ npm run build
 Supabase Auth owns users. `profiles` links to `auth.users`, `projects` are owned by a profile, and every project-scoped table carries `project_id`. RLS policies enforce access through `projects.owner_id = auth.uid()`.
 
 Rules are stored as structured JSON, not opaque DSL strings. Human-readable notation can be generated later for display or import/export, but the canonical database shape is typed JSON with `version` and `kind` fields.
+
+`src/lib/database.types.ts` is bootstrapped for this foundation PR. Once a local or hosted Supabase project is linked, refresh it from the schema with:
+
+```bash
+npm run db:types
+```
 
 ## Reference Notes
 

@@ -32,3 +32,11 @@ This avoids coupling schema migrations and runtime behavior to parser quirks.
 The previous alpha app stored morphology, rewrite, and phonotactic behavior as
 DSL strings, which forced migrations to parse and rewrite user-authored text.
 This version keeps parser compatibility concerns outside the database contract.
+
+## Ordering
+
+Morphological rule application order is scoped to the part of speech that is
+being inflected. The `morphology_rule_parts_of_speech` junction stores
+`rule_ordering`, so a rule shared by nouns and adjectives can have a different
+rank in each sequence. `morphology_rules.ordering` is reserved for general rule
+list display.

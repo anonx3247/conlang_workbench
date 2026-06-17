@@ -26,7 +26,7 @@ export function createServerSupabaseClient(
     return null;
   }
 
-  return createServerClient<Database>(env.url, env.anonKey, {
+  return createServerClient<Database>(env.url, env.publishableKey, {
     cookies: {
       getAll() {
         return cookieStore.getAll();
