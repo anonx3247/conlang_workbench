@@ -1,11 +1,9 @@
 import { cookies } from "next/headers";
 
-import {
-  LexiconWorkbench,
-  lexiconSubTabs,
-} from "@/components/lexicon-workbench";
+import { LexiconWorkbench } from "@/components/lexicon-workbench";
 import { ProjectShell } from "@/components/project-shell";
 import { getLexiconData } from "@/lib/lexicon-data";
+import { parseLexiconTab } from "@/lib/lexicon-tabs";
 import { getPhonologyData } from "@/lib/phonology-data";
 import { getProjectById } from "@/lib/projects";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
@@ -23,9 +21,7 @@ export default async function LexiconPage({
 }) {
   const { projectId } = await params;
   const { tab, q, pos } = await searchParams;
-  const activeTab = lexiconSubTabs.some((item) => item.id === tab)
-    ? (tab as (typeof lexiconSubTabs)[number]["id"])
-    : "dictionary";
+  const activeTab = parseLexiconTab(tab);
   const client = createServerSupabaseClient(await cookies());
   const [projectResult, lexiconResult, phonologyResult] = await Promise.all([
     getProjectById(client, projectId),

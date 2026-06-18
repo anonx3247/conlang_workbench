@@ -31,10 +31,17 @@ function clientWithTable(table: unknown): ProjectDataClient {
 }
 
 describe("project data access", () => {
-  it("returns read-only demo projects when Supabase is not configured", async () => {
+  it("returns local demo projects when Supabase is not configured", async () => {
     await expect(listProjects(null)).resolves.toMatchObject({
       status: "demo",
-      projects: [{ id: "demo-atelier" }],
+      projects: [{ id: "demo" }, { id: "demo-atelier" }],
+    });
+  });
+
+  it("loads the /projects/demo local fallback project without Supabase", async () => {
+    await expect(getProjectById(null, "demo")).resolves.toMatchObject({
+      status: "demo",
+      project: { id: "demo" },
     });
   });
 

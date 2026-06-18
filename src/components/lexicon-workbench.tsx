@@ -33,15 +33,8 @@ import {
 import { applyMorphologyRule, morphologyRuleSummary } from "@/lib/morphology";
 import { buildInventory, romanize, type PhonologyData } from "@/lib/phonology";
 import type { ProjectDataStatus } from "@/lib/projects";
+import { lexiconSubTabs, parseLexiconTab, type LexiconTab } from "@/lib/lexicon-tabs";
 
-export const lexiconSubTabs = [
-  { id: "dictionary", label: "Dictionary" },
-  { id: "swadesh", label: "Swadesh" },
-  { id: "thesaurus", label: "Thesaurus" },
-  { id: "derivations", label: "Derivations" },
-] as const;
-
-type LexiconTab = (typeof lexiconSubTabs)[number]["id"];
 type EditorMode = "create" | "edit";
 
 export function LexiconWorkbench({
@@ -63,9 +56,7 @@ export function LexiconWorkbench({
   readonly searchQuery?: string;
   readonly partOfSpeechId?: string;
 }) {
-  const initialTab = lexiconSubTabs.some((tab) => tab.id === activeTab)
-    ? activeTab
-    : "dictionary";
+  const initialTab = parseLexiconTab(activeTab);
   const storageEnabled = status !== "ready";
   const storageKey = `conlang-workbench:${projectId}:lexicon:v1`;
   const initialLexemes = readStoredLexemes(storageEnabled, storageKey, data.lexemes);
@@ -89,9 +80,7 @@ export function LexiconWorkbench({
     window.localStorage.setItem(storageKey, JSON.stringify({ lexemes }));
   }, [lexemes, storageEnabled, storageKey]);
 
-  const selectedTab = lexiconSubTabs.some((item) => item.id === tab)
-    ? tab
-    : "dictionary";
+  const selectedTab = parseLexiconTab(tab);
   const inventory = useMemo(() => buildInventory(phonologyData), [phonologyData]);
   const posById = useMemo(
     () => new Map(data.partsOfSpeech.map((pos) => [pos.id, pos])),

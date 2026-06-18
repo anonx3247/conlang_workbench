@@ -3,9 +3,9 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import {
   LexiconWorkbench,
-  lexiconSubTabs,
 } from "@/components/lexicon-workbench";
 import { buildDemoLexiconData } from "@/lib/lexicon-demo";
+import { lexiconSubTabs } from "@/lib/lexicon-tabs";
 import { buildDemoPhonologyData } from "@/lib/phonology-demo";
 import type { Lexeme, LexiconData } from "@/lib/lexicon";
 
