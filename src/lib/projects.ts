@@ -37,10 +37,18 @@ export type ProjectDataClient = Pick<SupabaseClient<Database>, "auth" | "from">;
 
 export const demoProjects: readonly ProjectSummary[] = [
   {
+    id: "demo",
+    ownerId: "demo",
+    name: "Local Demo",
+    description: "A browser-local workspace shown when Supabase is not configured.",
+    createdAt: "2026-01-01T00:00:00.000Z",
+    updatedAt: "2026-01-01T00:00:00.000Z",
+  },
+  {
     id: "demo-atelier",
     ownerId: "demo",
     name: "Atelier Demo",
-    description: "A read-only sample workspace shown when Supabase is not configured.",
+    description: "A browser-local sample workspace shown when Supabase is not configured.",
     createdAt: "2026-01-01T00:00:00.000Z",
     updatedAt: "2026-01-01T00:00:00.000Z",
   },
@@ -115,7 +123,7 @@ export async function listProjects(
       status: "demo",
       projects: demoProjects,
       message:
-        "Supabase credentials are not configured. Demo projects are read-only.",
+        "Supabase credentials are not configured. Demo projects use local browser data.",
     };
   }
 
@@ -153,7 +161,7 @@ export async function getProjectById(
       status: demoProject ? "demo" : "not-found",
       project: demoProject,
       message: demoProject
-        ? "Supabase credentials are not configured. This project is read-only."
+        ? "Supabase credentials are not configured. This project uses local browser data."
         : "Project not found.",
     };
   }
