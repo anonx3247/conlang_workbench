@@ -136,7 +136,7 @@ export async function getLexiconData(
     return {
       status: "demo",
       data: buildDemoLexiconData(projectId),
-      message: "Supabase credentials are not configured. Demo lexicon controls are local only.",
+      message: "Supabase credentials are not configured. Lexicon changes are saved in this browser.",
     };
   }
 

@@ -81,9 +81,11 @@ describe("lexicon data access", () => {
     const result = await getLexiconData(null, "project-1");
 
     expect(result.status).toBe("demo");
-    expect(result.data.lexemes[0]).toMatchObject({ ipa: "paku", notes: expect.any(String) });
-    expect(result.data.morphologyRules[0].body).toMatchObject({
-      kind: "morphology-rule",
+    expect(result.data.lexemes).toEqual([]);
+    expect(result.data.morphologyRules).toEqual([]);
+    expect(result.data.swadesh).toHaveLength(207);
+    expect(result.data.thesaurus[0]).toMatchObject({
+      name: "The Physical World",
     });
   });
 
