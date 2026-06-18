@@ -139,6 +139,7 @@ describe("project workflow routes", () => {
     expect(
       screen.getByRole("complementary", { name: "Glossary drawer" }),
     ).toBeInTheDocument();
+    expect(screen.queryByText("Reference IPA chart")).not.toBeInTheDocument();
   });
 
   it("renders a clear unavailable state for unauthenticated project routes", () => {

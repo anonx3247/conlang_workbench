@@ -58,7 +58,7 @@ export type MorphologyRuleBody = {
 };
 
 export type PhonotacticSlot =
-  | { readonly kind: "class"; readonly name: string; readonly optional?: boolean }
+  | { readonly kind: "class"; readonly ref: string; readonly optional?: boolean }
   | { readonly kind: "literal"; readonly value: string; readonly optional?: boolean };
 
 export type PhonotacticTemplateBody = {
@@ -226,7 +226,7 @@ function isPhonotacticSlot(value: unknown): value is PhonotacticSlot {
   }
 
   if (value.kind === "class") {
-    return isNonEmptyString(value.name);
+    return isNonEmptyString(value.ref);
   }
 
   return value.kind === "literal" && isNonEmptyString(value.value);
